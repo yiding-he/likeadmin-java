@@ -88,12 +88,12 @@ public class SystemAuthRoleServiceImpl implements ISystemAuthRoleService {
             SystemAuthRoleVo vo = new SystemAuthRoleVo();
             BeanUtils.copyProperties(systemAuthRole, vo);
 
-            Integer member = systemAuthAdminMapper.selectCount(new QueryWrapper<SystemAuthAdmin>()
+            Long member = systemAuthAdminMapper.selectCount(new QueryWrapper<SystemAuthAdmin>()
                     .eq("is_delete", 0)
                     .eq("role", systemAuthRole.getId()));
 
             vo.setMenus(new ArrayList<>());
-            vo.setMember(member);
+            vo.setMember(member.intValue());
             vo.setCreateTime(TimeUtil.timestampToDate(systemAuthRole.getCreateTime()));
             vo.setUpdateTime(TimeUtil.timestampToDate(systemAuthRole.getUpdateTime()));
             list.add(vo);
@@ -117,13 +117,13 @@ public class SystemAuthRoleServiceImpl implements ISystemAuthRoleService {
 
         Assert.notNull(systemAuthRole, "角色已不存在!");
 
-        Integer member = systemAuthAdminMapper.selectCount(new QueryWrapper<SystemAuthAdmin>()
+        Long member = systemAuthAdminMapper.selectCount(new QueryWrapper<SystemAuthAdmin>()
                 .eq("is_delete", 0)
                 .eq("role", systemAuthRole.getId()));
 
         SystemAuthRoleVo vo = new SystemAuthRoleVo();
         BeanUtils.copyProperties(systemAuthRole, vo);
-        vo.setMember(member);
+        vo.setMember(member.intValue());
         vo.setMenus(iSystemAuthPermService.selectMenuIdsByRoleId(systemAuthRole.getId()));
         vo.setCreateTime(TimeUtil.timestampToDate(systemAuthRole.getCreateTime()));
         vo.setUpdateTime(TimeUtil.timestampToDate(systemAuthRole.getUpdateTime()));

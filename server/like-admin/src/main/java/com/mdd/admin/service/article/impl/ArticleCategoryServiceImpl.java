@@ -93,11 +93,11 @@ public class ArticleCategoryServiceImpl implements IArticleCategoryService {
             ArticleCateVo vo = new ArticleCateVo();
             BeanUtils.copyProperties(category, vo);
 
-            Integer number = articleMapper.selectCount(new QueryWrapper<Article>()
+            Long number = articleMapper.selectCount(new QueryWrapper<Article>()
                     .eq("cid", category.getId())
                     .eq("is_delete", 0));
 
-            vo.setNumber(number);
+            vo.setNumber(number.intValue());
             vo.setCreateTime(TimeUtil.timestampToDate(vo.getCreateTime()));
             vo.setUpdateTime(TimeUtil.timestampToDate(vo.getUpdateTime()));
             list.add(vo);
